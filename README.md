@@ -2,8 +2,7 @@
 Video conversion script for LSC
 
 ## USAGE:
-Open terminal to the folder where MOV file is located, then run script ./MOVtoMP4_convert.sh
+Open terminal to the folder where MOV file is located, then run script ./MOVtoMP4_convert.sh or just user "convert" alias to execute the script.
 
 ## NOTE: 
-- ffmpeg file must be placed in the root where the script is. Get it from https://www.ffmpeg.org/download.html
 - zshrc is backed up with an alias to make commands available at command prompt
