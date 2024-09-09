@@ -50,18 +50,17 @@ function convertFiles() {
 
             #convert file
 		    
-            #Software encode            	
-		    #/usr/local/bin/ffmpeg -i ${file} -c:v libx264 -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
+            #Software encode (larger file, slowest encoding, most compatible)            	
+		    #/opt/homebrew/bin/ffmpeg -i ${file} -c:v libx264 -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
 	        
-            #Endode with Hardware acceleration
-            #/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/ffmpeg -i ${file} -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
-            /opt/homebrew/bin/ffmpeg -i ${file} -c:v libx265 -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
+            #Endode with Hardware acceleration (larger file, faster encode, most compatible)
+            /opt/homebrew/bin/ffmpeg -i ${file} -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
             
-            #H.265 test
+            #H.265 Hardware Encoding (smaller file, longer encode, less compatible)
             #/opt/homebrew/bin/ffmpeg -i ${file} -c:v hevc_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4"
 
             #change original file's extension so it doesn't get converted again, later, if not deleted.
-            #mv ${file} "${file}.original"
+            mv ${file} "${file}.original"
             ((i++))
             echo "${currentDate}  SUCCESS! ${newfile}.mp4 Converted!" >>${log}
         done
