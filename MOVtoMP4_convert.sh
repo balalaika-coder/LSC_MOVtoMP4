@@ -13,7 +13,6 @@
 
 #Create a log file
 currentDate=$(date +"%Y-%m-%d_%H-%M-%S")
-# touch "/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
 log="/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
 touch ${log}
 
