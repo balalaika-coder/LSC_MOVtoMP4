@@ -24,7 +24,7 @@ while IFS=  read -r -d $'\0'; do
 done < <(find . -iname "*.mov" -print0)
 
 #print all found files function on new line. This is needed for logging.
-function listFiles(){
+listFiles() {
     a=1
     echo "${currentDate}  Found files to be converted:" | tee -a ${log}
     while [ $a -le ${#files[@]} ]
@@ -34,7 +34,7 @@ function listFiles(){
     done
 }
 
-function convertFiles() {
+convertFiles() {
     #cycle through each file and convert to mp4
     i=1
     while [ $i -le ${#files[@]} ]
