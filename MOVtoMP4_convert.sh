@@ -3,8 +3,8 @@
 ###############################################################
 # convertMOVtoMP4.sh                                          #
 # Author: Yevgeniy Lukomskiy                                  #
-# Version: 1.2                                                #
-# Updated: 09/04/2024                                         #
+# Version: 1.3                                          #
+# Updated: 03/24/2025                                         #
 #                                                             #
 # About: This script scans folder and all subfolders,         #
 # searches for all MOV files and converts them to MP4 files   #
@@ -12,7 +12,7 @@
 ###############################################################
 
 #Create a log file
-currentDate=`date +"%Y-%m-%d_%H-%M-%S"`
+currentDate=$(date +"%Y-%m-%d_%H-%M-%S")
 touch "/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
 log="/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
 
@@ -22,15 +22,13 @@ while IFS=  read -r -d $'\0'; do
     files+=("$REPLY")
 done < <(find . -iname "*.mov" -print0)
 
-#print all found files function on new line
+#print all found files function on new line. This is needed for logging.
 function listFiles(){
     a=1
     echo "${currentDate}  Found files to be converted:" >>${log}
     while [ $a -le ${#files[@]} ]
     do
-        echo "${currentDate}  ${files[a]}" >>${log}
-        echo 
-        echo
+        echo -e "${currentDate}  ${files[a]}\n\n" >>${log}
         ((a++))
     done
 }
@@ -49,15 +47,8 @@ function convertFiles() {
             newfile=${file%.mov}
 
             #convert file
-		    
-            #Software encode (larger file, slowest encoding, most compatible)            	
-		    #/opt/homebrew/bin/ffmpeg -i ${file} -c:v libx264 -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
-	        
             #Endode with Hardware acceleration (larger file, faster encode, most compatible)
             /opt/homebrew/bin/ffmpeg -i ${file} -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
-            
-            #H.265 Hardware Encoding (smaller file, longer encode, less compatible)
-            #/opt/homebrew/bin/ffmpeg -i ${file} -c:v hevc_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4"
 
             #change original file's extension so it doesn't get converted again, later, if not deleted.
             mv ${file} "${file}.original"
@@ -70,9 +61,8 @@ function convertFiles() {
 if [ ${#files[@]} -ne 0 ]
     then
         #list found MOV files
-       listFiles
+        listFiles
         #Convert Files
-
         convertFiles
     else
         echo "${currentDate}  No files found. Exiting" >>${log}
