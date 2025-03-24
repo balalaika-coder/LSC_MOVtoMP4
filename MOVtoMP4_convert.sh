@@ -13,8 +13,9 @@
 
 #Create a log file
 currentDate=$(date +"%Y-%m-%d_%H-%M-%S")
-touch "/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
+# touch "/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
 log="/Users/lsc_stream/Documents/MOVtoMP4ConvertionScript_DO_NOT_DELETE/LSC_MOVtoMP4/logs/convertMOVtoMP4_${currentDate}.log"
+touch ${log}
 
 #find mov files and add them to files array
 files=()
@@ -25,10 +26,10 @@ done < <(find . -iname "*.mov" -print0)
 #print all found files function on new line. This is needed for logging.
 function listFiles(){
     a=1
-    echo "${currentDate}  Found files to be converted:" >>${log}
+    echo "${currentDate}  Found files to be converted:" | tee -a ${log}
     while [ $a -le ${#files[@]} ]
     do
-        echo -e "${currentDate}  ${files[a]}\n\n" >>${log}
+        echo -e "${currentDate}  ${files[a]}\n\n" | tee -a ${log}
         ((a++))
     done
 }
@@ -41,7 +42,7 @@ function convertFiles() {
             #get name for each file in array
             file=${files[i]}
             echo >>${log}
-            echo "${currentDate}  Converting: ${files[i]}" >>${log}
+            echo "${currentDate}  Converting: ${files[i]}" | tee -a ${log}
 
             #generate new name without mov extension
             newfile=${file%.mov}
@@ -53,8 +54,9 @@ function convertFiles() {
             #change original file's extension so it doesn't get converted again, later, if not deleted.
             mv ${file} "${file}.original"
             ((i++))
-            echo "${currentDate}  SUCCESS! ${newfile}.mp4 Converted!" >>${log}
-        done
+            echo -e "\n\n${currentDate}  SUCCESS! ${newfile}.mp4 Converted!" | tee -a ${log}
+    done
+    cat ${log}
 }
 
 
@@ -65,5 +67,5 @@ if [ ${#files[@]} -ne 0 ]
         #Convert Files
         convertFiles
     else
-        echo "${currentDate}  No files found. Exiting" >>${log}
+        echo "${currentDate}  No files found. Exiting" | tee -a ${log}
 fi
