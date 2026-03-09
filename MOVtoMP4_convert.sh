@@ -81,7 +81,7 @@ function convertFiles() {
         #convert file
 	        
         #Encode with Hardware acceleration
-        ffmpeg -i "${file}" -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
+        ffmpeg -hide_banner -loglevel error -stats -i "${file}" -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
         
         #change original file's extension so it doesn't get converted again, later, if not deleted.
         mv "${file}" "${file}.original"
