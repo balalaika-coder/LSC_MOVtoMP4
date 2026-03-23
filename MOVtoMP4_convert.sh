@@ -81,10 +81,9 @@ function convertFiles() {
         #convert file
 	        
         #Encode with Hardware acceleration
-        #fmpeg -hide_banner -loglevel error -stats -i "${file}" -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4" 
-        # ^ This is the old command that was not working. There were reports of converted files having no sound.
-        
-        ffmpeg -i ${file} -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a ac3 -b:a 1024k "${newfile}.mp4"
+        # Apple devices and QuickTime prefer AAC audio in MP4 files. 
+        # Using AC3 (especially with high bitrates) often results in no sound during playback.
+        ffmpeg -hide_banner -loglevel error -stats -i "${file}" -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a aac -b:a 320k "${newfile}.mp4"
         
         #change original file's extension so it doesn't get converted again, later, if not deleted.
         mv "${file}" "${file}.original"
