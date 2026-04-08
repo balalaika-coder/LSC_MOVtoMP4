@@ -88,7 +88,7 @@ function convertFiles() {
         if ffmpeg -y -hide_banner -loglevel warning -stats -i "${file}" \
             -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p \
             -c:a aac -b:a 320k -ac 2 \
-            -map 0:v:0 -map 0:a? \
+            -map 0:v:0 -map "0:a?" \
             -movflags +faststart \
             "${newfile}.mp4"; then
             
