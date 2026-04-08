@@ -83,9 +83,9 @@ function convertFiles() {
         # -y: Overwrite output file if it exists.
         # -map 0:v:0 -map 0:a?: Explicitly map the first video and all audio streams, ignoring data/metadata tracks.
         # -movflags +faststart: Moves the moov atom to the beginning for faster playback start.
-        # -loglevel warning: Show warnings (like dropped audio packets).
+        # -loglevel warning: Show info level logs.
         
-        if ffmpeg -y -hide_banner -loglevel warning -stats -i "${file}" \
+        if ffmpeg -y -hide_banner -loglevel info -stats -i "${file}" \
             -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p \
             -c:a aac -b:a 320k -ac 2 \
             -map 0:v:0 -map "0:a?" \
