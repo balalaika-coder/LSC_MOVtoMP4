@@ -78,17 +78,28 @@ function convertFiles() {
         #generate new name without mov extension
         newfile=${file%.mov}
 
-        #convert file
-	        
-        #Encode with Hardware acceleration
+        # Encode with Hardware acceleration
         # Apple devices and QuickTime prefer AAC audio in MP4 files. 
-        # Using AC3 (especially with high bitrates) often results in no sound during playback.
-        ffmpeg -hide_banner -loglevel error -stats -i "${file}" -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p -c:a aac -b:a 320k "${newfile}.mp4"
+        # -y: Overwrite output file if it exists.
+        # -map 0:v:0 -map 0:a?: Explicitly map the first video and all audio streams, ignoring data/metadata tracks.
+        # -movflags +faststart: Moves the moov atom to the beginning for faster playback start.
+        # -loglevel warning: Show warnings (like dropped audio packets).
         
-        #change original file's extension so it doesn't get converted again, later, if not deleted.
-        mv "${file}" "${file}.original"
-        
-        log_message "SUCCESS! ${newfile}.mp4 Converted!"
+        if ffmpeg -y -hide_banner -loglevel warning -stats -i "${file}" \
+            -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p \
+            -c:a aac -b:a 320k -ac 2 \
+            -map 0:v:0 -map "0:a?" \
+            -movflags +faststart \
+            "${newfile}.mp4"; then
+            
+            # Change original file's extension so it doesn't get converted again.
+            mv "${file}" "${file}.original"
+            log_message "SUCCESS! ${newfile}.mp4 Converted!"
+        else
+            log_message "ERROR: Conversion failed for ${file}. Check the output above for details."
+            # Optionally remove partial file if conversion failed
+            [ -f "${newfile}.mp4" ] && rm "${newfile}.mp4"
+        fi
     done
 }
 
