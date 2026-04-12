@@ -79,9 +79,8 @@ function convertFiles() {
         newfile=${file%.mov}
 
         # Encode with Hardware acceleration
-        # Apple devices and QuickTime prefer AAC audio in MP4 files. 
+        # AC3 is highly compatible and often more robust for MOV files from recording equipment.
         # -y: Overwrite output file if it exists.
-        # -map 0:v:0 -map 0:a?: Explicitly map the first video and all audio streams, ignoring data/metadata tracks.
         # -af "aresample=async=1": Helps with sync and ensures consistent audio processing.
         # -ar 48000: Forces standard 48kHz sample rate.
         # -movflags +faststart: Moves the moov atom to the beginning for faster playback start.
@@ -89,10 +88,8 @@ function convertFiles() {
         
         if ffmpeg -y -hide_banner -loglevel info -stats -i "${file}" \
             -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p \
-            -c:a aac -b:a 320k -ac 2 -ar 48000 \
+            -c:a ac3 -b:a 320k -ac 2 -ar 48000 \
             -af "aresample=async=1" \
-            -map 0:v:0 -map "0:a?" \
-            -disposition:a:0 default \
             -movflags +faststart \
             "${newfile}.mp4"; then
             
