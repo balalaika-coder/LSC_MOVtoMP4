@@ -3,8 +3,8 @@
 ###############################################################
 # convertMOVtoMP4.sh                                          #
 # Author: Yevgeniy Lukomskiy                                  #
-# Version: 1.2                                                #
-# Updated: 03/04/2026                                         #
+# Version: 1.3                                                #
+# Updated: 12/04/2026                                         #
 #                                                             #
 # About: This script converts .MOV files into .MP4 format     #
 # using macOS hardware acceleration (h264_videotoolbox).      #
