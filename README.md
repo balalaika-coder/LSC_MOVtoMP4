@@ -7,8 +7,8 @@ The core workflow involves scanning directories for MOV files, converting them u
 ## Key Features
 - **Automated Directory Scanning**: Recursively searches the current directory for `.mov` files.
 - **Hardware Acceleration**: Utilizes macOS `h264_videotoolbox` for lightning-fast, highly efficient video encoding.
-- **Real-Time Progress**: Parses execution telemetry to output real-time percentage progress of conversions in the terminal.
-- **Detailed Logging**: Automatically generates and saves conversion logs in a `logs/` folder within the execution directory.
+- **Robust Audio Encoding**: Employs the `ac3` codec and explicit sample rate (48kHz) to ensure high compatibility and prevent missing sound on professional recordings.
+- **Real-Time Progress**: Uses FFmpeg's `-stats` to provide live updates during the conversion process.
 - **Original File Protection**: Safely renames original files to `.mov.original` to ensure fallback safety and prevent redundant processing.
 - **Batch Cleanup Utilities**: Includes included scripts to safely list and batch-delete `.original` files after conversions are verified, ideal for managing storage space. 
 

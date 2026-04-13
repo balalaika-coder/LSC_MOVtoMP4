@@ -7,6 +7,7 @@ This project provides a suite of Zsh/Bash scripts designed for automated video c
 - **Shell Scripting:** Zsh/Bash for automation.
 - **FFmpeg:** Used for high-quality video encoding.
 - **Hardware Acceleration:** Utilizes `h264_videotoolbox` for efficient encoding on Apple hardware.
+- **Audio Encoding:** Uses `ac3` (320 kbps, 48kHz, Stereo) for high compatibility with professional recordings.
 
 ---
 
