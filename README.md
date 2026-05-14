@@ -57,7 +57,7 @@ After your conversions are verified, use the cleanup utilities to permanently re
 
 ## Included Files overview
 - `MOVtoMP4_convert.sh`: The primary conversion and renaming script.
-- `MOVtoMP4_vlc_convert.sh`: A fallback script that uses macOS native `avconvert` to extract audio from `.mov` files with broken QuickTime metadata that normally cause ffmpeg to crash or drop audio.
+- `MOVtoMP4_avconvert_convert.sh`: A fallback script that uses macOS native `avconvert` to extract audio from `.mov` files with broken QuickTime metadata that normally cause ffmpeg to crash or drop audio.
 - `generate_list_to_delete.sh`: Scans for `.original` legacy files and adds them to `toDelete.txt`.
 - `deleteOriginals.sh`: Permanently removes the exact files read from `toDelete.txt`.
 - `commands.md`: A reference sheet of useful shell one-liners for broader media management.

@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 ###############################################################
-# MOVtoMP4_avconvert_fallback.sh                                #
+# MOVtoMP4_avconvert_convert.sh                                #
 # Author: Yevgeniy Lukomskiy & AI Assistant                   #
 #                                                             #
 # About: This script converts .MOV files into .MP4 format.    #

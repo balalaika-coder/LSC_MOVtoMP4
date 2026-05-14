@@ -16,7 +16,7 @@ The directory contains the conversion scripts and utility scripts for cleanup.
 
 ### Key Files
 - **`MOVtoMP4_convert.sh`**: The primary conversion script. It recursively finds `.mov` files, converts them to `.mp4`, outputs progress to both the terminal and log files, and uniquely renames the original files to `.mov.original`.
-- **`MOVtoMP4_vlc_convert.sh`**: A secondary fallback script for problematic files (e.g., from Blackmagic HyperDecks). Some HyperDeck `.mov` files contain corrupted QuickTime chunk offset indexes (`stco`) which cause `ffmpeg` to silently drop the audio track. This script elegantly works around the bug by using the macOS native `avconvert` tool to extract the audio track at maximum CPU speed, and then multiplexes it with the video via `ffmpeg`.
+- **`MOVtoMP4_avconvert_convert.sh`**: A secondary fallback script for problematic files (e.g., from Blackmagic HyperDecks). Some HyperDeck `.mov` files contain corrupted QuickTime chunk offset indexes (`stco`) which cause `ffmpeg` to silently drop the audio track. This script elegantly works around the bug by using the macOS native `avconvert` tool to extract the audio track at maximum CPU speed, and then multiplexes it with the video via `ffmpeg`.
 - **`generate_list_to_delete.sh`**: Scans a target directory (typically on a NAS) for `.original` files and populates `toDelete.txt`.
 - **`deleteOriginals.sh`**: Reads `toDelete.txt` and permanently deletes the listed files.
 - **`commands.md`**: A reference file containing useful one-liners for managing the media archive.
