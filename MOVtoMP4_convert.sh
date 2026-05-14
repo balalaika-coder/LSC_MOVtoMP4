@@ -77,26 +77,11 @@ function convertFiles() {
 
         #generate new name without mov extension
         newfile=${file%.mov}
-
-        # Encode with Hardware acceleration
-        # AC3 is highly compatible and often more robust for MOV files from recording equipment.
-        # -y: Overwrite output file if it exists.
-        # -c:v h264_videotoolbox: Uses Apple's hardware acceleration for H.264 encoding.
-        # -b:v 10000k: Sets the video bitrate to 10 Mbps for high quality.
-        # -vf yadif: 'Yet Another DeInterlacing Filter' to remove interlacing artifacts.
-        # -pix_fmt yuv420p: Ensures the output uses the most compatible pixel format for players.
-        # -c:a ac3: Uses the AC3 (Dolby Digital) audio codec for robustness.
-        # -b:a 320k: Sets the audio bitrate to 320 kbps.
-        # -ac 2: Forces 2 audio channels (Stereo) for consistent playback.
-        # -ar 48000: Forces a standard 48kHz sample rate.
-        # -af "aresample=async=1": Resamples audio and helps maintain video sync.
-        # -movflags +faststart: Moves the 'moov' atom to the beginning for faster web playback.
-        # -loglevel info: Displays standard encoding information.
         
-        if ffmpeg -y -hide_banner -loglevel info -stats -i "${file}" \
+        if ffmpeg -y -hide_banner -loglevel info -stats -fflags +genpts -ignore_editlist 1 -i "${file}" \
+            -map 0:v:0 -map 0:a:0 \
             -c:v h264_videotoolbox -b:v 10000k -vf yadif -pix_fmt yuv420p \
             -c:a ac3 -b:a 320k -ac 2 -ar 48000 \
-            -af "aresample=async=1" \
             -movflags +faststart \
             "${newfile}.mp4"; then
             
