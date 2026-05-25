@@ -1,11 +1,10 @@
 #!/bin/zsh
 
 ###############################################################
-# MOVtoMP4_avconvert_convert.sh                               #
+# MOVtoMP4_avconvert_convert.sh                                #
 # Author: Yevgeniy Lukomskiy & AI Assistant                   #
 #                                                             #
-# About: This script converts .MP4 files into .MP4 format,    #
-# but reduces its size                                        #
+# About: This script converts .MOV files into .MP4 format.    #
 # It serves as a fallback for Blackmagic HyperDeck files      #
 # that have corrupted QuickTime indexes which cause ffmpeg    #
 # and HandBrake to crash or drop audio.                       #
@@ -42,7 +41,7 @@ while IFS= read -r -d '' filepath; do
     if [[ -n "$filepath" ]]; then
         files+=("$filepath")
     fi
-done < <(find . -name "*.mov" -type f -print0)
+done < <(find . -name "*.MP4" -type f -print0)
 
 function listFiles(){
     log_message "Found files to be converted:"
